@@ -1,6 +1,9 @@
 package com.example.edward.a32_digits;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,27 +84,39 @@ public class MainActivity extends AppCompatActivity {
                     List<String> companyAndHome = getCompanyAndHome(last16);
                     mCompanyView.setText(companyAndHome.get(0) + "烟草");
                     mHomeView.setText(companyAndHome.get(1));
+
+                    if (companyAndHome.get(0).equals("未知")) {
+                        getAlertDialog("烟草公司不存在");
+                    }
+                    if (companyAndHome.get(1).equals("未知")) {
+                        getAlertDialog("归属地不存在");
+                    }
+
                 } else {
                     Toast.makeText(MainActivity.this, "请输入有效的后16位编码",
                             Toast.LENGTH_SHORT).show();
                 }
 
+
             }
         });
     }
 
-    public String getInfo(String first16, String last16) {
-        return first16 + last16;
-    }
-
     public String getDistributionDate(String first16) {
         String date = first16.substring(0, 5);
-        String year = date.substring(0, 1);
+        String year = "201" + date.substring(0, 1);
         String month = date.substring(1, 3);
         String day = date.substring(3);
 
+        if (Integer.valueOf(year) > Calendar.getInstance().get(Calendar.YEAR)
+                || Integer.valueOf(month) > 12
+                || Integer.valueOf(day) > 31) {
+            getAlertDialog("日期不存在");
+            return "未知";
+        }
+
         StringBuilder sb = new StringBuilder();
-        return sb.append("201" + year + "." + month + "." + day).toString();
+        return sb.append(year + "." + month + "." + day).toString();
     }
 
     public String getBoxNum(String first16) {
@@ -110,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
     public String getDerivedNum(String first16) {
         String derivedNum = first16.substring(14);
+        if (Integer.valueOf(derivedNum) > 50 ) {
+            getAlertDialog("派生码无效");
+            return "未知";
+        }
         return derivedNum;
     }
 
@@ -144,5 +164,27 @@ public class MainActivity extends AppCompatActivity {
     public String getLicenseView(String last16) {
         String licenseKey = last16.substring(10);
         return licenseKey;
+    }
+
+    public void getAlertDialog(String msg) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("警告！");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("32位条码无效\n" + msg)
+                .setCancelable(false)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // show it
+        alertDialog.show();
     }
 }
