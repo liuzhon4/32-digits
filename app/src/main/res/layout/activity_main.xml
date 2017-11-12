@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,27 +10,29 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_alignBottom="@+id/last16View"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="29dp"
+        android:layout_toEndOf="@+id/first16View"
         android:text="@string/search"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toEndOf="@+id/last16View"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintVertical_bias="0.138" />
 
     <EditText
         android:id="@+id/first16View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_alignParentStart="true"
+
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/first16Name"
         android:inputType="number"
         android:labelFor="@id/first16View"
+        android:maxLength="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -42,10 +44,12 @@
         android:id="@+id/last16View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_alignStart="@+id/first16View"
+        android:layout_below="@+id/first16View"
         android:hint="@string/last16Name"
         android:inputType="text"
         android:labelFor="@id/first16View"
+        android:maxLength="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -57,9 +61,11 @@
         android:id="@+id/distributionDateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="52dp"
+        android:layout_alignStart="@+id/last16View"
+        android:layout_below="@+id/last16View"
+        android:layout_marginTop="40dp"
         android:text="@string/distributionDate"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/last16View" />
 
@@ -67,9 +73,11 @@
         android:id="@+id/boxNoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/distributionDateView"
+        android:layout_below="@+id/distributionDateView"
+        android:layout_marginTop="30dp"
         android:text="@string/boxNo"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distributionDateView" />
 
@@ -77,9 +85,12 @@
         android:id="@+id/derivedCodeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/companyNameView"
+        android:layout_below="@+id/boxNoView"
+        android:layout_marginTop="30dp"
         android:text="@string/derivedCode"
+        android:textAlignment="viewStart"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boxNoView" />
 
@@ -87,9 +98,11 @@
         android:id="@+id/companyNameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/last16View"
+        android:layout_below="@+id/derivedCodeView"
+        android:layout_marginTop="30dp"
         android:text="@string/companyName"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/derivedCodeView" />
 
@@ -97,9 +110,11 @@
         android:id="@+id/homeLocationView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/companyNameView"
+        android:layout_below="@+id/companyNameView"
+        android:layout_marginTop="30dp"
         android:text="@string/homeLocation"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/companyNameView" />
 
@@ -107,10 +122,11 @@
         android:id="@+id/licenseKeyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/homeLocationView"
+        android:layout_below="@+id/homeView"
+        android:layout_marginTop="30dp"
         android:text="@string/licenseKey"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,10 +137,71 @@
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="292dp"
+        android:layout_alignBaseline="@+id/distributionDateView"
+        android:layout_alignBottom="@+id/distributionDateView"
+        android:layout_alignStart="@+id/button"
         android:text="@string/unknown"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/boxView"
         app:layout_constraintStart_toEndOf="@+id/distributionDateView" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/boxView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/boxNoView"
+        android:layout_alignBottom="@+id/boxNoView"
+        android:layout_alignStart="@+id/button"
+        android:text="@string/unknown"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/derivedView"
+        app:layout_constraintStart_toEndOf="@+id/boxNoView" />
+
+    <TextView
+        android:id="@+id/derivedView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/derivedCodeView"
+        android:layout_alignBottom="@+id/derivedCodeView"
+        android:layout_alignStart="@+id/button"
+        android:text="@string/unknown"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/companyView"
+        app:layout_constraintStart_toEndOf="@+id/derivedCodeView" />
+
+    <TextView
+        android:id="@+id/companyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/companyNameView"
+        android:layout_alignBottom="@+id/companyNameView"
+        android:layout_alignStart="@+id/button"
+        android:text="@string/unknown"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/homeView"
+        app:layout_constraintStart_toEndOf="@+id/companyNameView" />
+
+    <TextView
+        android:id="@+id/homeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/homeLocationView"
+        android:layout_alignBottom="@+id/homeLocationView"
+        android:layout_alignStart="@+id/button"
+        android:text="@string/unknown"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/licenseView"
+        app:layout_constraintStart_toEndOf="@+id/homeLocationView" />
+
+    <TextView
+        android:id="@+id/licenseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/licenseKeyView"
+        android:layout_alignStart="@+id/button"
+        android:layout_alignTop="@+id/licenseKeyView"
+
+        android:text="@string/unknown"
+        android:textSize="24sp" />
+
+</RelativeLayout>

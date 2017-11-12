@@ -10,4 +10,5 @@
     <string name="homeLocation">归属地</string>
     <string name="licenseKey">许可证号</string>
     <string name="unknown">未知</string>
+    <string name="tobacco">烟草</string>
 </resources>
