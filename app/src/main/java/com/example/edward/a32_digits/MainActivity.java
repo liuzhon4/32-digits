@@ -19,6 +19,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -108,9 +110,14 @@ public class MainActivity extends AppCompatActivity {
         String month = date.substring(1, 3);
         String day = date.substring(3);
 
-        if (Integer.valueOf(year) > Calendar.getInstance().get(Calendar.YEAR)
-                || Integer.valueOf(month) > 12
-                || Integer.valueOf(day) > 31) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+            format.setLenient(false);
+            format.parse(year + "." + month + "." + day);
+        } catch (ParseException e) {
+            getAlertDialog("日期不存在");
+            return "未知";
+        } catch (IllegalArgumentException e) {
             getAlertDialog("日期不存在");
             return "未知";
         }
@@ -134,24 +141,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public List<String> getCompanyAndHome(String last16) {
-        String companyCode = last16.substring(0, 4).toUpperCase();
         String locationCode = last16.substring(4, 10);
         AssetManager am = MainActivity.this.getAssets();
         String line;
         List<String> result = Arrays.asList("未知", "未知");
-//        ArrayList<String> temp = new ArrayList<>();
         try {
-
             InputStream is = am.open(locationCode.substring(0, 1) + ".txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
             while ((line = reader.readLine()) != null) {
-                if (line.contains(companyCode + "--" + locationCode.substring(0, 3))) {
-//                    temp.add(line);
-                    result.set(0, Arrays.asList(line.split("--")).get(1));
-                }
-                if (line.contains(locationCode)) {
-                    result.set(1, Arrays.asList(line.split("--")).get(1));
+                if (line.startsWith(locationCode)) {
+                    List<String> lineList = Arrays.asList(line.split("--"));
+                    result.set(0, lineList.get(3));
+                    result.set(1, lineList.get(1));
+                } else if (line.startsWith(locationCode.substring(0, 4))) {
+                    List<String> lineList = Arrays.asList(line.split("--"));
+                    result.set(0, lineList.get(3));
                 }
             }
         } catch (IOException e) {
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getLicenseView(String last16) {
-        String licenseKey = last16.substring(10);
+        String licenseKey = last16.substring(4);
         return licenseKey;
     }
 
