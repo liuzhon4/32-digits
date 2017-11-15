@@ -12,4 +12,5 @@
     <string name="unknown">未知</string>
     <string name="tobacco">烟草</string>
     <string name="dialog_title">Alert</string>
+    <string name="retailer">零售户信息</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mButton = findViewById(R.id.button);
+        mButton = findViewById(R.id.searchButton);
+
         mFirst16Text = findViewById(R.id.first16View);
         mLast16Text = findViewById(R.id.last16View);
         mDateView = findViewById(R.id.dateView);
@@ -102,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        mLicenseView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                getAlertDialog("烟草证号不在系统中！");
+                Intent i = new Intent(getApplicationContext(), LicenseActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     public String getDistributionDate(String first16) {
@@ -109,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
         String year = "201" + date.substring(0, 1);
         String month = date.substring(1, 3);
         String day = date.substring(3);
-
+        String pattern = "yyyy.MM.dd";
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
             format.setLenient(false);
             format.parse(year + "." + month + "." + day);
         } catch (ParseException e) {
