@@ -1,182 +1,111 @@
 package com.example.edward.a32_digits;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import com.znq.zbarcode.CaptureActivity;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Button mButton;
-    private EditText mFirst16Text;
-    private EditText mLast16Text;
-    private TextView mDateView;
-    private TextView mBoxView;
-    private TextView mDerivedView;
-    private TextView mCompanyView;
-    private TextView mHomeView;
-    private TextView mLicenseView;
-
-//    private TextView m
+    private Button m32Button;
+    private Button mBarCodeButton;
+    private int QR_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mButton = findViewById(R.id.searchButton);
+        m32Button = findViewById(R.id.button32);
+        mBarCodeButton = findViewById(R.id.barCodeButton);
 
-        mFirst16Text = findViewById(R.id.first16View);
-        mLast16Text = findViewById(R.id.last16View);
-        mDateView = findViewById(R.id.dateView);
-        mBoxView = findViewById(R.id.boxView);
-        mDerivedView = findViewById(R.id.derivedView);
-        mCompanyView = findViewById(R.id.companyView);
-        mHomeView = findViewById(R.id.homeView);
-        mLicenseView = findViewById(R.id.licenseView);
-
-        mButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                //hide virtual keyboard after pressing button
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null :
-                        getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-                String first16 = mFirst16Text.getText().toString();
-                String last16 = mLast16Text.getText().toString();
-
-                //check first 16 digits
-                if (first16.length() == 16){
-                    String distributionDate = getDistributionDate(first16);
-                    String boxNum = getBoxNum(first16);
-                    String derivedNum = getDerivedNum(first16);
-                    mDateView.setText(distributionDate);
-                    mBoxView.setText(boxNum);
-                    mDerivedView.setText(derivedNum);
-                } else {
-                    Toast.makeText(MainActivity.this, "请输入有效的前16位编码",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                //check last 16 digits
-                if (last16.length() == 16) {
-                    String licenseKey = getLicenseView(last16);
-                    mLicenseView.setText(licenseKey);
-                    List<String> companyAndHome = getCompanyAndHome(last16);
-                    mCompanyView.setText(companyAndHome.get(0) + "烟草");
-                    mHomeView.setText(companyAndHome.get(1));
-
-                    if (companyAndHome.get(0).equals("未知")) {
-                        getAlertDialog("烟草公司不存在");
-                    }
-                    if (companyAndHome.get(1).equals("未知")) {
-                        getAlertDialog("归属地不存在");
-                    }
-
-                } else {
-                    Toast.makeText(MainActivity.this, "请输入有效的后16位编码",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
-        mLicenseView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                getAlertDialog("烟草证号不在系统中！");
-                Intent i = new Intent(getApplicationContext(), LicenseActivity.class);
+        m32Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Digit32Activity.class);
                 startActivity(i);
             }
         });
+
+        mBarCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), CaptureActivity.class);
+                startActivityForResult(i, QR_CODE);
+            }
+        });
     }
 
-    public String getDistributionDate(String first16) {
-        String date = first16.substring(0, 5);
-        String year = "201" + date.substring(0, 1);
-        String month = date.substring(1, 3);
-        String day = date.substring(3);
-        String pattern = "yyyy.MM.dd";
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(pattern);
-            format.setLenient(false);
-            format.parse(year + "." + month + "." + day);
-        } catch (ParseException e) {
-            getAlertDialog("日期不存在");
-            return "未知";
-        } catch (IllegalArgumentException e) {
-            getAlertDialog("日期不存在");
-            return "未知";
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == QR_CODE && resultCode == RESULT_OK) {
+            if(null == data) return;
+            Bundle b = data.getExtras();
+            String result = b.getString(CaptureActivity.EXTRA_STRING);
+            Toast.makeText(this, result + "", Toast.LENGTH_SHORT).show();
+            Log.d("scannedCode", result);
+
+            ArrayList<String> all = readExcel(result);
+            StringBuilder sb = new StringBuilder();
+            sb.append("编码：" + all.get(0) + "\n");
+            sb.append("名称：" + all.get(1) + "\n");
+            sb.append("三批价：" + all.get(2) + "\n");
+            sb.append("单位：" + all.get(3) + "\n");
+            String temp = all.get(4).equals("Y") ? "是": "否";
+            sb.append("是否为北京在销卷烟：" + temp);
+            getAlertDialog(sb.toString());
+            Log.d("BarCode", all.get(0));
+            Log.d("Name", all.get(1));
+            Log.d("WholesalePrice", all.get(2));
+            Log.d("Unit", all.get(3));
+            Log.d("PS", all.get(4));
+
         }
-
-        StringBuilder sb = new StringBuilder();
-        return sb.append(year + "." + month + "." + day).toString();
     }
 
-    public String getBoxNum(String first16) {
-        String boxNum = first16.substring(5, 14);
-        return boxNum;
-    }
-
-    public String getDerivedNum(String first16) {
-        String derivedNum = first16.substring(14);
-        if (Integer.valueOf(derivedNum) > 50 ) {
-            getAlertDialog("派生码无效");
-            return "未知";
-        }
-        return derivedNum;
-    }
-
-    public List<String> getCompanyAndHome(String last16) {
-        String locationCode = last16.substring(4, 10);
-        AssetManager am = MainActivity.this.getAssets();
-        String line;
-        List<String> result = Arrays.asList("未知", "未知");
+    public ArrayList<String> readExcel(String barCode) {
+        Integer row = 0;
+        Boolean found = false;
+        ArrayList<String> result = new ArrayList<>(Arrays.asList(barCode, "未知", "未知", "未知", "未知"));
         try {
-            InputStream is = am.open(locationCode.substring(0, 1) + ".txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(locationCode)) {
-                    List<String> lineList = Arrays.asList(line.split("--"));
-                    result.set(0, lineList.get(3));
-                    result.set(1, lineList.get(1));
-                } else if (line.startsWith(locationCode.substring(0, 4))) {
-                    List<String> lineList = Arrays.asList(line.split("--"));
-                    result.set(0, lineList.get(3));
+            Workbook wb = Workbook.getWorkbook(getAssets().open("全国卷烟在销名录.xls"));
+            Sheet sheet = wb.getSheet(0);
+            for(int i = 2; i < sheet.getRows(); i++) {
+                String temp = sheet.getCell(0, i).getContents().trim();
+//                Log.d("read cell", temp);
+                if (temp.equals(barCode)) {
+                    row = i;
+                    found = true;
+                    break;
                 }
             }
+            if (found) {
+                result.add(1, sheet.getCell(1, row).getContents());
+                result.add(2, sheet.getCell(2, row).getContents());
+                result.add(3, sheet.getCell(3, row).getContents());
+                result.add(4, sheet.getCell(4, row).getContents());
+            }
+
         } catch (IOException e) {
-            Log.d("assetFile", e.getMessage());
+            Log.e("IOException: ", e.getMessage());
+        } catch (BiffException e) {
+            Log.e("BiffException: ", e.getMessage());
         }
         return result;
-
-    }
-
-    public String getLicenseView(String last16) {
-        String licenseKey = last16.substring(4);
-        return licenseKey;
     }
 
     public void getAlertDialog(String msg) {
@@ -184,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this);
 
         // set title
-        alertDialogBuilder.setTitle("警告！");
+        alertDialogBuilder.setTitle("识别结果");
 
         // set dialog message
         alertDialogBuilder
-                .setMessage("32位条码无效\n" + msg)
+                .setMessage(msg)
                 .setCancelable(false)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

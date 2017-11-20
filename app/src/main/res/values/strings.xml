@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">32位码归属地查询</string>
+    <string name="app_name">科技项目</string>
+    <string name="part_1">32位码归属地查询</string>
+    <string name="part_2">条形码扫描</string>
     <string name="search">搜索</string>
     <string name="first16Name">请输入前16位码</string>
     <string name="last16Name">请输入后16位码</string>
@@ -12,5 +14,18 @@
     <string name="unknown">未知</string>
     <string name="tobacco">烟草</string>
     <string name="dialog_title">Alert</string>
-    <string name="retailer">零售户信息</string>
+    <string name="license">许可证号：</string>
+    <string name="retailer">零售户信息：</string>
+    <string name="enterpriseName">企业（字号）名称：</string>
+    <string name="address">经营地址：</string>
+    <string name="handler">负责人（经营者）姓名：</string>
+    <string name="contactNum">联系人电话：</string>
+    <string name="contactName">联系人姓名：</string>
+    <string name="IDNum">身份证号：</string>
+    <string name="commerceNum">工商营业执照编号：</string>
+    <string name="startDate">发证日期：</string>
+    <string name="belongsTo">经营场地权属：</string>
+    <string name="endDate">许可证截止期限：</string>
+    <string name="status">当前状态：</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

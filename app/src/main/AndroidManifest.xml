@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.edward.a32_digits">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,13 +20,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LicenseActivity"
-            android:label="@string/retailer"
-            android:parentActivityName=".MainActivity"
+            android:name=".Digit32Activity"
             android:alwaysRetainTaskState="true"
-            android:launchMode="singleInstance">
+            android:label="@string/part_1"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"/>
 
-        </activity>
+        <activity
+            android:name=".LicenseActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="@string/retailer"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".Digit32Activity"/>
+
     </application>
 
 </manifest>
