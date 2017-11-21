@@ -3,6 +3,7 @@
     package="com.example.edward.a32_digits">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -24,15 +25,19 @@
             android:alwaysRetainTaskState="true"
             android:label="@string/part_1"
             android:launchMode="singleInstance"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".LicenseActivity"
             android:alwaysRetainTaskState="true"
             android:label="@string/retailer"
             android:launchMode="singleInstance"
-            android:parentActivityName=".Digit32Activity"/>
-
+            android:parentActivityName=".Digit32Activity" />
+        <activity
+            android:name=".ScanActivity"
+            android:label="@string/part_2"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

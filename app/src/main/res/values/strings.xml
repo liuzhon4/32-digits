@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">科技项目</string>
+    <string name="app_name">房山科技项目</string>
     <string name="part_1">32位码归属地查询</string>
     <string name="part_2">条形码扫描</string>
     <string name="search">搜索</string>
@@ -27,5 +27,13 @@
     <string name="belongsTo">经营场地权属：</string>
     <string name="endDate">许可证截止期限：</string>
     <string name="status">当前状态：</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">BMainActivity</string>
+    <string name="captureButton">开始扫描</string>
+    <string name="barCode">编码：</string>
+    <string name="cigaretteName">名称：</string>
+    <string name="wholeSalePrice">三批价：</string>
+    <string name="suggestedPrice">建议零售价：</string>
+    <string name="manufacturer">单位：</string>
+    <string name="sellInBeijing">是否为北京在销卷烟：</string>
+
 </resources>
