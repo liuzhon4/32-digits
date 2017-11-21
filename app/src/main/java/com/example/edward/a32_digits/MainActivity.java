@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
             sb.append("编码：" + all.get(0) + "\n");
             sb.append("名称：" + all.get(1) + "\n");
             sb.append("三批价：" + all.get(2) + "\n");
-            sb.append("单位：" + all.get(3) + "\n");
-            String temp = all.get(4).equals("Y") ? "是": "否";
-            sb.append("是否为北京在销卷烟：" + temp);
+            sb.append("建议零售价：" + all.get(3) + "\n");
+            sb.append("单位：" + all.get(4) + "\n");
+            sb.append("是否为北京在销卷烟：" + all.get(5) + "\n");
             getAlertDialog(sb.toString());
             Log.d("BarCode", all.get(0));
             Log.d("Name", all.get(1));
@@ -80,24 +80,26 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> readExcel(String barCode) {
         Integer row = 0;
         Boolean found = false;
-        ArrayList<String> result = new ArrayList<>(Arrays.asList(barCode, "未知", "未知", "未知", "未知"));
+        ArrayList<String> result = new ArrayList<>(Arrays.asList(barCode, "未知", "未知", "未知", "未知", "未知"));
         try {
-            Workbook wb = Workbook.getWorkbook(getAssets().open("全国卷烟在销名录.xls"));
+            Workbook wb = Workbook.getWorkbook(getAssets().open("20171121全国卷烟在销名录.xls"));
             Sheet sheet = wb.getSheet(0);
             for(int i = 2; i < sheet.getRows(); i++) {
-                String temp = sheet.getCell(0, i).getContents().trim();
+                String tempBar = sheet.getCell(14, i).getContents().trim();
+                String tempBox = sheet.getCell(15, i).getContents().trim();
 //                Log.d("read cell", temp);
-                if (temp.equals(barCode)) {
+                if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
                     row = i;
                     found = true;
                     break;
                 }
             }
             if (found) {
-                result.add(1, sheet.getCell(1, row).getContents());
-                result.add(2, sheet.getCell(2, row).getContents());
-                result.add(3, sheet.getCell(3, row).getContents());
-                result.add(4, sheet.getCell(4, row).getContents());
+                result.add(1, sheet.getCell(2, row).getContents().trim());
+                result.add(2, sheet.getCell(12, row).getContents().trim());
+                result.add(3, sheet.getCell(13, row).getContents().trim());
+                result.add(4, sheet.getCell(3, row).getContents().trim());
+                result.add(5, sheet.getCell(21,row).getContents().trim());
             }
 
         } catch (IOException e) {
