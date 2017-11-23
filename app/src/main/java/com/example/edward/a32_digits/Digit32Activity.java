@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,6 +85,7 @@ public class Digit32Activity extends AppCompatActivity {
                 //check last 16 digits
                 if (last16.length() == 16) {
                     String licenseKey = getLicenseView(last16);
+                    mLicenseView.setPaintFlags(mLicenseView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                     mLicenseView.setText(licenseKey);
                     List<String> companyAndHome = getCompanyAndHome(last16);
                     mCompanyView.setText(companyAndHome.get(0) + "烟草");

@@ -3,8 +3,8 @@
     <string name="part_1">32位码归属地查询</string>
     <string name="part_2">条形码扫描</string>
     <string name="search">搜索</string>
-    <string name="first16Name">请输入前16位码</string>
-    <string name="last16Name">请输入后16位码</string>
+    <string name="first16Name">请输入前16位编码</string>
+    <string name="last16Name">请输入后16位编码</string>
     <string name="distributionDate">分拣日期</string>
     <string name="boxNo">件码</string>
     <string name="derivedCode">派生码</string>
@@ -35,5 +35,7 @@
     <string name="suggestedPrice">建议零售价：</string>
     <string name="manufacturer">单位：</string>
     <string name="sellInBeijing">是否为北京在销卷烟：</string>
-
+    <string name="DB1">全国卷烟在销名录</string>
+    <string name="DB2">三统一系统条码库</string>
+    <string name="DB3">质监站条码库</string>
 </resources>

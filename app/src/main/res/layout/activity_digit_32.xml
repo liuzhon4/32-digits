@@ -142,7 +142,7 @@
 
         android:layout_alignBaseline="@+id/distributionDateView"
         android:layout_alignBottom="@+id/distributionDateView"
-        android:layout_toEndOf="@+id/last16View"
+        android:layout_alignStart="@+id/boxView"
         android:text="@string/unknown"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/boxView"

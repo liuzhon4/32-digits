@@ -7,31 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import jxl.Cell;
+
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class LicenseActivity extends AppCompatActivity {
-
-    private TextView mLicenseView;
-    private TextView mCommerceNameView;
-    private TextView mAddressView;
-    private TextView mHandlerView;
-    private TextView mContactNameView;
-    private TextView contactNumView;
-    private TextView IDNumView;
-    private TextView CommerceNumView;
-    private TextView startDateView;
-    private TextView endDateView;
-    private TextView belongsToView;
-    private TextView statusView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +25,18 @@ public class LicenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_license);
         ArrayList<String> infoList = readExcel(getIntent().getStringExtra("licenseKey"));
-        mLicenseView = findViewById(R.id.licenseID);
-        mCommerceNameView = findViewById(R.id.commerceNameID);
-        mAddressView = findViewById(R.id.addressID);
-        mHandlerView = findViewById(R.id.handlerID);
-        mContactNameView = findViewById(R.id.contactNameID);
-        contactNumView = findViewById(R.id.contactNumID);
-        IDNumView = findViewById(R.id.IDNumID);
-        CommerceNumView = findViewById(R.id.commerceNumID);
-        startDateView = findViewById(R.id.startDateID);
-        endDateView = findViewById(R.id.endDateID);
-        belongsToView = findViewById(R.id.belongsToID);
-        statusView = findViewById(R.id.statusID);
+        TextView mLicenseView = findViewById(R.id.licenseID);
+        TextView mCommerceNameView = findViewById(R.id.commerceNameID);
+        TextView mAddressView = findViewById(R.id.addressID);
+        TextView mHandlerView = findViewById(R.id.handlerID);
+        TextView mContactNameView = findViewById(R.id.contactNameID);
+        TextView contactNumView = findViewById(R.id.contactNumID);
+        TextView IDNumView = findViewById(R.id.IDNumID);
+        TextView CommerceNumView = findViewById(R.id.commerceNumID);
+        TextView startDateView = findViewById(R.id.startDateID);
+        TextView endDateView = findViewById(R.id.endDateID);
+        TextView belongsToView = findViewById(R.id.belongsToID);
+        TextView statusView = findViewById(R.id.statusID);
 
         mLicenseView.setText(infoList.get(0));
         mCommerceNameView.setText(infoList.get(1));
@@ -68,9 +54,6 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     public ArrayList<String> readExcel(String target) {
-        if (target.equals("未知")) {
-            getAlertDialog("零售户不在本区之内");
-        }
         ArrayList<String> result = new ArrayList<>(Arrays.asList("未知", "未知", "未知", "未知",
                 "未知", "未知", "未知", "未知", "未知", "未知", "未知", "未知"));
         Integer row = 0;
