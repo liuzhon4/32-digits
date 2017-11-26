@@ -87,7 +87,7 @@ public class ScanActivity extends AppCompatActivity {
         ArrayList<String> result = new ArrayList<>(Arrays.asList(barCode, "未知", "未知", "未知", "未知", "未知"));
         try {
             if (mCheckBox1.isChecked()) {
-                Workbook wb = Workbook.getWorkbook(getAssets().open("20171121全国卷烟在销名录.xls"));
+                Workbook wb = Workbook.getWorkbook(getAssets().open("barCodeDB/20171121全国卷烟在销名录.xls"));
                 Sheet sheet = wb.getSheet(0);
                 for(int i = 2; i < sheet.getRows(); i++) {
                     String tempBar = sheet.getCell(14, i).getContents().trim();
@@ -109,9 +109,9 @@ public class ScanActivity extends AppCompatActivity {
 
 
         } catch (IOException e) {
-            Log.e("IOException: ", e.getMessage());
+            Log.e("IOException", e.getMessage());
         } catch (BiffException e) {
-            Log.e("BiffException: ", e.getMessage());
+            Log.e("BiffException", e.getMessage());
         }
         return result;
     }
