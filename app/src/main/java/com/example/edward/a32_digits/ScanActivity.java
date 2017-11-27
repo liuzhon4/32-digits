@@ -3,13 +3,17 @@ package com.example.edward.a32_digits;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.znq.zbarcode.CaptureActivity;
 
@@ -24,13 +28,18 @@ import jxl.read.biff.BiffException;
 public class ScanActivity extends AppCompatActivity {
 
 //    private Button mCaptureButton;
+    private String barCode;
+    private ArrayList<String> result = new ArrayList<>(Arrays.asList("未知", "未知", "未知", "未知", "未知", "未知"));
     private TextView mBarCodeView;
     private TextView mCigaretteNameView;
     private TextView mWholeSalePriceView;
     private TextView mSuggestedPriceView;
     private TextView mManufacturerView;
     private TextView mSellInBeijingView;
-    private CheckBox mCheckBox1;
+
+    private RadioButton mRadioButton1;
+    private RadioButton mRadioButton2;
+    private RadioButton mRadioButton3;
     private int QR_CODE = 1;
 
     @Override
@@ -44,7 +53,10 @@ public class ScanActivity extends AppCompatActivity {
         mSuggestedPriceView = findViewById(R.id.suggestedPriceView);
         mManufacturerView = findViewById(R.id.manufacturerView);
         mSellInBeijingView = findViewById(R.id.sellInBeijingView);
-        mCheckBox1 = findViewById(R.id.checkBox1);
+
+        mRadioButton1 = findViewById(R.id.radioButton1);
+        mRadioButton2 = findViewById(R.id.radioButton2);
+        mRadioButton3 = findViewById(R.id.radioButton3);
 
         mCaptureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +65,41 @@ public class ScanActivity extends AppCompatActivity {
                 startActivityForResult(i, QR_CODE);
             }
         });
+        mRadioButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(ScanActivity.this, "radio 1 clicked", Toast.LENGTH_SHORT).show();
+                if (result.get(0).equals("未知")) {
+                    getAlertDialog("请先扫描");
+                } else {
+                    setText(barCode);
+                }
+
+            }
+        });
+        mRadioButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(ScanActivity.this, "radio 2 clicked", Toast.LENGTH_SHORT).show();
+                if (result.get(0).equals("未知")) {
+                    getAlertDialog("请先扫描");
+                } else {
+                    setText(barCode);
+                }
+            }
+        });
+        mRadioButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(ScanActivity.this, "radio 3 clicked", Toast.LENGTH_SHORT).show();
+                if (result.get(0).equals("未知")) {
+                    getAlertDialog("请先扫描");
+                } else {
+                    setText(barCode);
+                }
+            }
+        });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -61,52 +108,58 @@ public class ScanActivity extends AppCompatActivity {
             if(null == data) return;
             Bundle b = data.getExtras();
             try {
-
-                String result = b.getString(CaptureActivity.EXTRA_STRING);
-                Log.d("scannedCode", result);
-
-                ArrayList<String> all = readExcel(result);
-                mBarCodeView.setText(all.get(0));
-                mCigaretteNameView.setText(all.get(1));
-                mWholeSalePriceView.setText(all.get(2));
-                mSuggestedPriceView.setText(all.get(3));
-                mManufacturerView.setText(all.get(4));
-                mSellInBeijingView.setText(all.get(5));
-
+                barCode = b.getString(CaptureActivity.EXTRA_STRING);
+                setText(barCode);
             } catch (NullPointerException e) {
                 Log.e("capture", e.getMessage());
             }
-
-
         }
     }
 
     public ArrayList<String> readExcel(String barCode) {
-        Integer row = 0;
-        Boolean found = false;
-        ArrayList<String> result = new ArrayList<>(Arrays.asList(barCode, "未知", "未知", "未知", "未知", "未知"));
+        result.set(0, barCode);
         try {
-            if (mCheckBox1.isChecked()) {
+            if (mRadioButton1.isChecked()) {
                 Workbook wb = Workbook.getWorkbook(getAssets().open("barCodeDB/20171121全国卷烟在销名录.xls"));
                 Sheet sheet = wb.getSheet(0);
                 for(int i = 2; i < sheet.getRows(); i++) {
                     String tempBar = sheet.getCell(14, i).getContents().trim();
                     String tempBox = sheet.getCell(15, i).getContents().trim();
                     if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
-                        row = i;
-                        found = true;
+                        result.set(1, sheet.getCell(2, i).getContents().trim());
+                        result.set(2, sheet.getCell(12, i).getContents().trim());
+                        result.set(3, sheet.getCell(13, i).getContents().trim());
+                        result.set(4, sheet.getCell(3, i).getContents().trim());
+                        result.set(5, sheet.getCell(21,i).getContents().trim());
                         break;
                     }
                 }
-                if (found) {
-                    result.add(1, sheet.getCell(2, row).getContents().trim());
-                    result.add(2, sheet.getCell(12, row).getContents().trim());
-                    result.add(3, sheet.getCell(13, row).getContents().trim());
-                    result.add(4, sheet.getCell(3, row).getContents().trim());
-                    result.add(5, sheet.getCell(21,row).getContents().trim());
+            }
+            if (mRadioButton2.isChecked()) {
+                Workbook wb = Workbook.getWorkbook(getAssets().open("barCodeDB/20171122三统一系统条码库.xls"));
+                Sheet sheet = wb.getSheet(0);
+                for (int i = 1; i < sheet.getRows(); i++) {
+                    String tempBar = sheet.getCell(0, i).getContents().trim();
+                    String tempBox = sheet.getCell(1, i).getContents().trim();
+                    if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
+                        result.set(1, sheet.getCell(2, i).getContents().trim());
+                        break;
+                    }
                 }
             }
+            if (mRadioButton3.isChecked()) {
+                Workbook wb = Workbook.getWorkbook(getAssets().open("barCodeDB/20171123质检站条码库.xls"));
+                Sheet sheet = wb.getSheet(0);
+                for (int i = 2; i < sheet.getRows(); i++) {
+                    String tempBar = sheet.getCell(0, i).getContents().trim();
+                    String tempBox = sheet.getCell(1, i).getContents().trim();
+                    if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
+                        result.set(1, sheet.getCell(2, i).getContents().trim());
+                        break;
+                    }
+                }
 
+            }
 
         } catch (IOException e) {
             Log.e("IOException", e.getMessage());
@@ -136,5 +189,15 @@ public class ScanActivity extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         // show it
         alertDialog.show();
+    }
+
+    public void setText(String barCode) {
+        ArrayList<String> all = readExcel(barCode);
+        mBarCodeView.setText(all.get(0));
+        mCigaretteNameView.setText(all.get(1));
+        mWholeSalePriceView.setText(all.get(2));
+        mSuggestedPriceView.setText(all.get(3));
+        mManufacturerView.setText(all.get(4));
+        mSellInBeijingView.setText(all.get(5));
     }
 }

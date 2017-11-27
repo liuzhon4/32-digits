@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/Edward/Documents/AndroidWorkspace/32digits/zbarcode/src/main/assets"/><source path="/Users/Edward/Documents/AndroidWorkspace/32digits/zbarcode/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/Edward/Documents/AndroidWorkspace/32digits/zbarcode/src/debug/assets"/></dataSet></merger>

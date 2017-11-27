@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/Edward/Documents/AndroidWorkspace/32digits/zbarcode/build/intermediates/bundles/debug/res/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,97,139,177,222,273,400,443",
+                        "endLines": "2,3,4,5,6,8,9,10",
+                        "endColumns": "41,41,37,44,50,46,42,43",
+                        "endOffsets": "92,134,172,217,268,395,438,482"
+                    }
+                }
+            ]
+        }
+    ]
+}
