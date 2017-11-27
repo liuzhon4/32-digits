@@ -6,22 +6,22 @@
     density="xxhdpi"
     format="10"
     plugin-version="3.0.1"
-    timestamp="1511751382278"
+    timestamp="1511753602569"
     token="5405930419640109272"
     verifier="COMPATIBLE" >
 
     <task
         name="javac"
-        duration="51" />
+        duration="49" />
     <task
         name="instant-run-dex"
-        duration="20" />
+        duration="13" />
     <task
         name="instant-run-transform"
-        duration="14" />
+        duration="12" />
     <task
         name="verifier"
-        duration="2" />
+        duration="1" />
 
     <artifact
         location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/reload-dex/debug/classes.dex"
@@ -79,7 +79,7 @@
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1511751042355"
+        timestamp="1511753205191"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
@@ -87,23 +87,15 @@
     </build>
     <build
         build-mode="HOT_WARM"
-        timestamp="1511751217507"
+        timestamp="1511753282349"
         verifier="COMPATIBLE" >
         <artifact
-            location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/builds/debug/1511751217507/classes.dex"
+            location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/builds/debug/1511753282349/classes.dex"
             type="RELOAD_DEX" />
     </build>
     <build
         build-mode="HOT_WARM"
-        timestamp="1511751313131"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/builds/debug/1511751313131/classes.dex"
-            type="RELOAD_DEX" />
-    </build>
-    <build
-        build-mode="HOT_WARM"
-        timestamp="1511751382278"
+        timestamp="1511753602569"
         verifier="COMPATIBLE" >
         <artifact
             location="/Users/Edward/Documents/AndroidWorkspace/32digits/app/build/intermediates/reload-dex/debug/classes.dex"

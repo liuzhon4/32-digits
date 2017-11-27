@@ -144,10 +144,13 @@ public class ScanActivity extends AppCompatActivity {
                     if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
                         result.set(1, sheet.getCell(2, i).getContents().trim());
                         break;
+                    } else {
+                        result.set(1, "未知");
                     }
                 }
             }
             if (mRadioButton3.isChecked()) {
+//                Toast.makeText(ScanActivity.this, "in readExcel", Toast.LENGTH_SHORT).show();
                 Workbook wb = Workbook.getWorkbook(getAssets().open("barCodeDB/20171123质检站条码库.xls"));
                 Sheet sheet = wb.getSheet(0);
                 for (int i = 2; i < sheet.getRows(); i++) {
@@ -156,6 +159,8 @@ public class ScanActivity extends AppCompatActivity {
                     if (tempBar.equals(barCode) || tempBox.equals(barCode)) {
                         result.set(1, sheet.getCell(2, i).getContents().trim());
                         break;
+                    } else {
+                        result.set(1, "未知");
                     }
                 }
 
